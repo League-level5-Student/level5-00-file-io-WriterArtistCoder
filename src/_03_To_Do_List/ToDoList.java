@@ -1,5 +1,7 @@
 package _03_To_Do_List;
 
+import javax.swing.JFrame;
+
 public class ToDoList {
 	/*
 	 * Create a program with five buttons, add task, view tasks, remove task, save list, and load list. 
@@ -21,4 +23,11 @@ public class ToDoList {
 	 * 
 	 * When the program starts, it should automatically load the last saved file into the list.
 	 */
+	
+	JFrame frame = new JFrame();
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+	frame.pack()
+	frame.setVisible(true);
+	
 }

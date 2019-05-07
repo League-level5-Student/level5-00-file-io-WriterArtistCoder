@@ -1,7 +1,29 @@
 package _02_File_Encrypt_Decrypt;
 
+import java.io.FileWriter;
+
+import javax.swing.JOptionPane;
+
 public class FileEncryptor {
 	// Create a program that takes a message from the user.
 	// Use the methods in the String and Character classes to save
 	// an encrypted form of the message to a file
+	public static void main(String[] args) {
+		try {
+			String input = JOptionPane.showInputDialog("Hi, dude");
+			FileWriter fw = new FileWriter("/Users/soda/Desktop/dude.txt");
+			
+			StringBuilder edit = new StringBuilder(input);
+			for (int i = 0; i < edit.length(); i++) {
+				char c = (char)((int)edit.charAt(i)+2);
+				edit.replace(i, i+1, c+"");
+			}
+			input = edit.toString();
+			
+			fw.write(input);
+			fw.close();
+		} catch (Exception e) {
+			
+		}
+	}
 }
