@@ -1,5 +1,6 @@
 package _02_File_Encrypt_Decrypt;
 
+import java.io.File;
 import java.io.FileWriter;
 
 import javax.swing.JOptionPane;
@@ -11,11 +12,12 @@ public class FileEncryptor {
 	public static void main(String[] args) {
 		try {
 			String input = JOptionPane.showInputDialog("Hi, dude");
-			FileWriter fw = new FileWriter("/Users/soda/Desktop/dude.txt");
-			
+			FileWriter fw = new FileWriter(new File("/home/leaguestudent/Desktop/dude.txt"));
+			// For Brave Law: /Users/soda/
+			// For LOAP computer: /home/leaguestudent/
 			StringBuilder edit = new StringBuilder(input);
 			for (int i = 0; i < edit.length(); i++) {
-				char c = (char)((int)edit.charAt(i)+2);
+				char c = (char)(edit.charAt(i)+2);
 				edit.replace(i, i+1, c+"");
 			}
 			input = edit.toString();

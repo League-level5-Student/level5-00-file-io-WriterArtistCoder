@@ -1,9 +1,6 @@
 package _02_File_Encrypt_Decrypt;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
@@ -12,15 +9,18 @@ public class FileDecryptor {
 	// the decrypted message to the user in a JOptionPane.
 	public static void main(String[] args) {
 		try {
-			FileReader fr = new FileReader("/Users/soda/Desktop/dude.txt");
+			FileReader fr = new FileReader("/home/leaguestudent/Desktop/dude.txt");
+			// For Brave Law: /Users/soda/
+			// For LOAP computer: /home/leaguestudent/
 			String s = "";
 			int c = fr.read();
 			while (c != -1){
-				s += (char)fr.read()-2+"";
+				s += (char)(c-2);
+				c = fr.read();
 			}
 			fr.close();
 			
-			System.out.println(s+"hi");
+			System.out.println(s);
 			JOptionPane.showMessageDialog(null, s);
 		} catch (Exception e) {
 			System.out.print("mcdonaldas");
