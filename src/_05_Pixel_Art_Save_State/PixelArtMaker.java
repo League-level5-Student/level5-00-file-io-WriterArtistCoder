@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -77,6 +78,10 @@ public class PixelArtMaker implements MouseListener {
 								fw.write("\n");
 							}
 							fw.close();
+							
+							PrintWriter pw = new PrintWriter(new File("LATEST.txt"));
+							pw.write(file.getPath());
+							pw.close();
 
 							System.exit(0);
 						} catch (Exception e) {

@@ -53,7 +53,7 @@ public class GridPanel extends JPanel {
 	}
 	
 	public GridPanel(File f) {
-		if (imgFile != null) {
+		if (f != null) {
 			try {
 				FileReader fr = new FileReader(f);
 				BufferedReader br = new BufferedReader(fr);
