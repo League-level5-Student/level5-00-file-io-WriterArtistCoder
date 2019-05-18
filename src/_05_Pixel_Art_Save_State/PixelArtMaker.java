@@ -48,7 +48,10 @@ public class PixelArtMaker implements MouseListener {
 		window.setLayout(new FlowLayout());
 		window.setResizable(false);
 
-		if (!openImg) {
+		if (openImg) {
+			gp = new GridPanel(imgFile);
+			window.add(gp);
+		} else {
 			window.add(gip);
 		}
 		window.pack();
@@ -70,10 +73,7 @@ public class PixelArtMaker implements MouseListener {
 
 							for (Pixel[] p1 : gp.pixels) {
 								for (Pixel p : p1) {
-									// The +32 stops it from writing control characters
-									fw.write(p.color.getRed()+32);
-									fw.write(p.color.getGreen()+32);
-									fw.write(p.color.getBlue()+32);
+									fw.write(Encode.encode(p.color));
 								}
 								fw.write("\n");
 							}

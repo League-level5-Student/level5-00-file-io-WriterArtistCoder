@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -53,6 +52,37 @@ public class GridPanel extends JPanel {
 	}
 	
 	public GridPanel(File f) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			BufferedReader br1 = new BufferedReader(new FileReader(f));
+			
+			this.rows = br.readLine().length();
+			this.cols = 0;
+			
+			while (br1.readLine() != null) {
+				this.cols++;
+			}
+			this.cols/=3;
+			
+			this.windowWidth = cols*20;
+			this.windowHeight = rows*20;
+			
+			this.pixelWidth = windowWidth / cols;
+			this.pixelHeight = windowHeight / rows;
+			pixels = new Pixel[rows][cols];
+			
+			br.close();
+			br1.close();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				pixels[i][j] = new Pixel(i, j);
+			}
+		}
+		
 		if (f != null) {
 			try {
 				FileReader fr = new FileReader(f);
@@ -61,12 +91,7 @@ public class GridPanel extends JPanel {
 					String line = br.readLine();
 					int i = 0;
 					for (Pixel p : p1) {
-						int r1 = (int)line.charAt(i)-32;
-						int g1 = (int)line.charAt(i+1)-32;
-						int b1 = (int)line.charAt(i+2)-32;
-						
-						Color pixcol = new Color(r1, g1, b1);
-						p.color = pixcol;
+						p.color = Encode.decode(line.substring(i, i+3));
 						i+=3;
 					}
 				}
