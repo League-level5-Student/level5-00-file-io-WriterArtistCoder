@@ -1,6 +1,7 @@
 package _05_Pixel_Art_Save_State;
 
 import java.awt.FlowLayout;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
@@ -13,6 +14,11 @@ import java.io.PrintWriter;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+// TODO GridPanel constructor for File is not fully written
+// TODO Art is not encoded properly
+// TODO If you refuse to open the file last saved, then try to pick a different file,
+//      it doesn't open the File-Opener Dialog or Quit.
 
 public class PixelArtMaker implements MouseListener {
 	private JFrame window;

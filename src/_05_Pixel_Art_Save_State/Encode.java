@@ -5,41 +5,44 @@ import java.util.ArrayList;
 
 public class Encode {
 	
-	char[] nonctrl;
-	// The nonctrl char array is empty?!?
+	ArrayList<Character> nonctrl;
 
 	public Encode() {
-		ArrayList<Character> chars = new ArrayList<>();
-		for (int i = 32; chars.size() < 256; i++) {
+		nonctrl = new ArrayList<>();
+		
+		for (int i = 32; nonctrl.size() < 256; i++) {
 			if (i == 127) {
 				i+=33;
 			}
 			
-			chars.add((char)i);
+			nonctrl.add((char)i);
 		}
-		
-		nonctrl = new char[chars.size()];
 	}
 	
 	public static void main(String[] args) {
-		char[] nonctrl = new Encode().nonctrl;
-		for (char c : nonctrl) {
-			System.out.print(c);
+		Encode e = new Encode();
+		String s = "";
+		for (char c : e.nonctrl) {
+			s += c;
 		}
+		
+		System.out.println(s);
+		System.out.println(s.length());
+		System.out.println(e.nonctrl.get(0)+e.nonctrl.get(0)+e.nonctrl.get(0));
 	}
 	
 	public static String encode(Color c) {
-		char[] nonctrl = new Encode().nonctrl;
+		ArrayList<Character> nonctrl = new Encode().nonctrl;
 		
 		int r = c.getRed();
 		int g = c.getGreen();
 		int b = c.getBlue();
 		
-		return ((char)nonctrl[r])+((char)nonctrl[g])+((char)nonctrl[b])+"";
+		return (""+nonctrl.get(r))+(""+nonctrl.get(g))+(""+nonctrl.get(b));
 	}
 	
 	public static Color decode(String s) throws IllegalArgumentException {
-		char[] basicNonctrl = new Encode().nonctrl;
+		ArrayList<Character> basicNonctrl = new Encode().nonctrl;
 		ArrayList<Character> nonctrl = new ArrayList<>();
 		for (char c : basicNonctrl) {
 			nonctrl.add(c);

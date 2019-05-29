@@ -91,6 +91,7 @@ public class GridPanel extends JPanel {
 					String line = br.readLine();
 					int i = 0;
 					for (Pixel p : p1) {
+						System.out.println(p == null);
 						p.color = Encode.decode(line.substring(i, i+3));
 						i+=3;
 					}
