@@ -40,6 +40,7 @@ public class PixelArtMaker implements MouseListener {
 				br.close();
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Couldn't open the file. :(");
+				openImg = false;
 			}
 		} else if (JOptionPane.showConfirmDialog(null, "Open a different image?\n(Only files made with PixelArtMaker are supported.)", null, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			JFileChooser filech = new JFileChooser();
