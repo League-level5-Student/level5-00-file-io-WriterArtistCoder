@@ -56,7 +56,16 @@ public class PixelArtMaker implements MouseListener {
 		window.setResizable(false);
 
 		if (openImg) {
-			gp = new GridPanel(imgFile);
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(imgFile));
+				String[] properties = br.readLine().split(",");
+				br.close();
+			
+				gp = new GridPanel(Integer.parseInt(properties[0]), Integer.parseInt(properties[1]), Integer.parseInt(properties[2]), Integer.parseInt(properties[3]));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			window.add(gp);
 		} else {
 			window.add(gip);
@@ -77,6 +86,7 @@ public class PixelArtMaker implements MouseListener {
 
 						try {
 							FileWriter fw = new FileWriter(file);
+							fw.write(gp.properties()+"\n");
 
 							for (Pixel[] p1 : gp.pixels) {
 								for (Pixel p : p1) {
@@ -86,7 +96,10 @@ public class PixelArtMaker implements MouseListener {
 							}
 							fw.close();
 							
-							PrintWriter pw = new PrintWriter(new File("LATEST.txt"));
+							PrintWriter pw = new PrintWriter(new File("src/_05_Pixel_Art_Save_State/LATEST.txt"));
+							System.out.println("path"+file.getPath());
+							System.out.println("abs path"+file.getAbsolutePath());
+
 							pw.write(file.getPath());
 							pw.close();
 

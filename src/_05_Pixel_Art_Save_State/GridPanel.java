@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GridPanel extends JPanel {
+	// Estero c
 
 	private static final long serialVersionUID = 1L;
 	private int windowWidth;
@@ -50,62 +51,6 @@ public class GridPanel extends JPanel {
 			}
 		}
 	}
-	
-	public GridPanel(File f) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(f));
-			BufferedReader br1 = new BufferedReader(new FileReader(f));
-			
-			this.rows = br.readLine().length();
-			this.cols = 0;
-			
-			while (br1.readLine() != null) {
-				this.cols++;
-			}
-			this.cols/=3;
-			
-			this.windowWidth = cols*20;
-			this.windowHeight = rows*20;
-			
-			this.pixelWidth = windowWidth / cols;
-			this.pixelHeight = windowHeight / rows;
-			pixels = new Pixel[rows][cols];
-			
-			br.close();
-			br1.close();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				pixels[i][j] = new Pixel(i, j);
-			}
-		}
-		
-		if (f != null) {
-			try {
-				FileReader fr = new FileReader(f);
-				BufferedReader br = new BufferedReader(fr);
-				for (Pixel[] p1 : pixels) {
-					String line = br.readLine();
-					int i = 0;
-					for (Pixel p : p1) {
-						System.out.println(p == null);
-						p.color = Encode.decode(line.substring(i, i+3));
-						i+=3;
-					}
-				}
-				
-				fr.close();
-				br.close();
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, "Couldn't open the file. :(");
-			}
-		} else {
-			JOptionPane.showMessageDialog(null, "Couldn't open the file. :(");
-		}
-	}
 
 	public void setColor(Color c) {
 		color = c;
@@ -137,5 +82,9 @@ public class GridPanel extends JPanel {
 		for (int i = 0; i < cols; i++) {
 			g.drawLine(i * pixelWidth, 0, i * pixelWidth, windowHeight);
 		}
+	}
+	
+	public String properties() {
+		return windowWidth+","+windowHeight+","+rows+","+cols;
 	}
 }
