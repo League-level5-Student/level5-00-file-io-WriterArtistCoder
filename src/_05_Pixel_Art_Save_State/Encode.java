@@ -39,7 +39,7 @@ public class Encode {
 		int b = c.getBlue();
 		
 		return (""+nonctrl.get(r))+(""+nonctrl.get(g))+(""+nonctrl.get(b));
-	}
+			}
 	
 	public static Color decode(String s) throws IllegalArgumentException {
 		ArrayList<Character> basicNonctrl = new Encode().nonctrl;

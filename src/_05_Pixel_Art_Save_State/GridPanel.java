@@ -8,11 +8,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GridPanel extends JPanel {
-	// Estero c
 
 	private static final long serialVersionUID = 1L;
 	private int windowWidth;
@@ -33,18 +31,18 @@ public class GridPanel extends JPanel {
 		this.windowHeight = h;
 		this.rows = r;
 		this.cols = c;
-		
+
 		this.pixelWidth = windowWidth / cols;
 		this.pixelHeight = windowHeight / rows;
-		
+
 		color = Color.BLACK;
-		
+
 		setPreferredSize(new Dimension(windowWidth, windowHeight));
-		
-		//2. Initialize the pixel array using the rows and cols variables.
+
+		// 2. Initialize the pixel array using the rows and cols variables.
 		pixels = new Pixel[rows][cols];
-		
-		//3. Iterate through the array and initialize each element to a new pixel.
+
+		// 3. Iterate through the array and initialize each element to a new pixel.
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				pixels[i][j] = new Pixel(i, j);
@@ -83,8 +81,35 @@ public class GridPanel extends JPanel {
 			g.drawLine(i * pixelWidth, 0, i * pixelWidth, windowHeight);
 		}
 	}
-	
+
 	public String properties() {
-		return windowWidth+","+windowHeight+","+rows+","+cols;
+		return windowWidth + "," + windowHeight + "," + rows + "," + cols;
+	}
+
+	public void setPixels(File imgFile) {
+		try {
+			BufferedReader b = new BufferedReader(new FileReader(imgFile));
+			b.readLine(); // Prevents from reading special line
+			
+			for (Pixel[] p1 : pixels) {
+				String line;
+				line = b.readLine();
+
+				int i = 0;
+
+				for (Pixel p : p1) {
+					String s = line.substring(i, i + 3);
+					p.color = Encode.decode(s);
+					i += 3;
+					
+					System.out.print(s);
+				}
+				System.out.println("");
+			}
+
+			b.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
