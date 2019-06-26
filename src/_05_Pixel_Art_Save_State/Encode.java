@@ -25,10 +25,6 @@ public class Encode {
 		for (char c : e.nonctrl) {
 			s += c;
 		}
-		
-		System.out.println(s);
-		System.out.println(s.length());
-		System.out.println(e.nonctrl.get(0)+e.nonctrl.get(0)+e.nonctrl.get(0));
 	}
 	
 	public static String encode(Color c) {

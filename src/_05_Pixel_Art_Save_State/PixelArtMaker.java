@@ -16,22 +16,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-// TODO GridPanel constructor for File is not fully written
-// TODO Art is not encoded properly
-// TODO If you refuse to open the file last saved, then try to pick a different file,
-//      it doesn't open the File-Opener Dialog or Quit.
-
-
-// TODO Clean up:
-// TODO 1. Break down methods
-// TODO 2. Keep hacking at methods
-// TODO 3. Add comments?
-// TODO 4. Write tests
+// TODO 
 
 public class PixelArtMaker implements MouseListener, MouseMotionListener {
 	private JFrame window;
 	private GridInputPanel gip;
 	private GridPanel gp;
+	File imgFile;
 	boolean needsSaving;
 	ColorSelectionPanel csp;
 
@@ -42,8 +33,8 @@ public class PixelArtMaker implements MouseListener, MouseMotionListener {
 		window.setLayout(new FlowLayout());
 		window.setResizable(false);
 
-		File imgFile = getFile();
-		
+		imgFile = getFile();
+
 		if (imgFile == null) {
 			window.add(gip);
 		} else {
@@ -51,7 +42,7 @@ public class PixelArtMaker implements MouseListener, MouseMotionListener {
 				BufferedReader br = new BufferedReader(new FileReader(imgFile));
 				String[] properties = br.readLine().split(",");
 				br.close();
-				
+
 				needsSaving = true;
 				gp = new GridPanel(Integer.parseInt(properties[0]), Integer.parseInt(properties[1]),
 						Integer.parseInt(properties[2]), Integer.parseInt(properties[3]));
@@ -60,6 +51,7 @@ public class PixelArtMaker implements MouseListener, MouseMotionListener {
 				e.printStackTrace();
 			}
 			window.add(gp);
+			setup();
 		}
 		window.pack();
 		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -67,7 +59,7 @@ public class PixelArtMaker implements MouseListener, MouseMotionListener {
 
 		window.setVisible(true);
 	}
-	
+
 	public File getFile() {
 		File imgFile = null;
 
@@ -90,10 +82,10 @@ public class PixelArtMaker implements MouseListener, MouseMotionListener {
 			filech.showOpenDialog(null);
 			imgFile = filech.getSelectedFile();
 		}
-		
+
 		return imgFile;
 	}
-	
+
 	public void addSavingListener(JFrame window) {
 		window.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
@@ -104,27 +96,27 @@ public class PixelArtMaker implements MouseListener, MouseMotionListener {
 
 						if (JOptionPane.showConfirmDialog(null, "Do you want to save your beautiful art?", null,
 								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-							JFileChooser filech = new JFileChooser();
-							filech.showSaveDialog(null);
-							File file = filech.getSelectedFile();
-
+							if (imgFile == null) {
+								JFileChooser filech = new JFileChooser();
+								filech.showSaveDialog(null);
+								imgFile = filech.getSelectedFile();
+							}
+							
 							try {
-								FileWriter fw = new FileWriter(file);
+								FileWriter fw = new FileWriter(imgFile);
 								fw.write(gp.properties() + "\n");
 
 								for (Pixel[] p1 : gp.pixels) {
 									for (Pixel p : p1) {
 										fw.write(Encode.encode(p.color));
-										System.out.print(Encode.encode(p.color));
 									}
 									fw.write("\n");
-									System.out.println("");
 								}
 								fw.close();
 
 								PrintWriter pw = new PrintWriter(new File("src/_05_Pixel_Art_Save_State/LATEST.txt"));
 
-								pw.write(file.getPath());
+								pw.write(imgFile.getPath());
 								pw.close();
 
 								System.exit(0);
@@ -142,16 +134,21 @@ public class PixelArtMaker implements MouseListener, MouseMotionListener {
 			}
 		});
 	}
-	
+
 	public void submitGridData(int w, int h, int r, int c) {
-		needsSaving = true;
 		gp = new GridPanel(w, h, r, c);
-		csp = new ColorSelectionPanel();
 		window.remove(gip);
 		window.add(gp);
+		setup();
+	}
+	
+	public void setup() {
+		needsSaving = true;
+		csp = new ColorSelectionPanel();
 		window.add(csp);
 		gp.repaint();
 		gp.addMouseListener(this);
+		gp.addMouseMotionListener(this);
 		window.pack();
 	}
 

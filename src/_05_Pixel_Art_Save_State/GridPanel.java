@@ -101,10 +101,7 @@ public class GridPanel extends JPanel {
 					String s = line.substring(i, i + 3);
 					p.color = Encode.decode(s);
 					i += 3;
-					
-					System.out.print(s);
 				}
-				System.out.println("");
 			}
 
 			b.close();
